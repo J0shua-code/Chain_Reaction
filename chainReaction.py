@@ -1,7 +1,6 @@
 import sys
-import newLogic
+import logic
 import pygame
-import newLogic
 
 BLACK = (0, 0, 0)
 WHITE = (200, 200, 200)
@@ -11,7 +10,7 @@ WINDOW_WIDTH = 0
 
 
 def main():
-    nl = newLogic.GameLogic()
+    nl = logic.GameLogic()
 
     print("Enter grid size row x col")
     ROW = int(input())
@@ -36,17 +35,18 @@ def main():
                 x, y = pos[1] // BLOCK_SIZE, pos[0] // BLOCK_SIZE
                 grid[x][y] += 1
                 print(grid, x, y)
-                nl.logic(grid, x, y)
-                ofv = nl.returnOverflownValues(grid)
-                if len(ofv) != 0:
-                    grid[x][y] = 0
-                    try:
-                        grid[x - 1][y] += 1
-                        grid[x + 1][y] += 1
-                        grid[x][y - 1] += 1
-                        grid[x][y + 1] += 1
-                    except:
-                        pass
+                nl.logic(grid)
+                nl.returnNeighbours(grid, x, y)
+                # ofv = nl.returnOverflownValues(44)
+                # if len(ofv) != 0:
+                #     grid[x][y] = 0
+                #     try:
+                #         grid[x - 1][y] += 1
+                #         grid[x + 1][y] += 1
+                #         grid[x][y - 1] += 1
+                #         grid[x][y + 1] += 1
+                #     except:
+                #         pass
                     # while len(ofv) != 0:
                     #     for x in ofv:
                     #         grid[x[0]][x[1]] = 0

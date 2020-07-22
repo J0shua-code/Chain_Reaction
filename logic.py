@@ -1,7 +1,6 @@
 from typing import Dict, List, Any, Union
 
 class GameLogic:
-    
 
     def __init__(self):
         self.values_list = []
@@ -14,28 +13,20 @@ class GameLogic:
         for i in range(len(gameboard)):
             for j in range((len(gameboard[i]))):
                 if (j == 0 or j == len(gameboard[i]) - 1) and (i == 0 or i == len(gameboard) - 1):
-                    corners_dict_list.append({"value": gameboard[i][j], "position": [i, j]})
                     self.values_list[i][j] = 1
 
-
-        middle_dict_list = []
         # the center square
         for x in range(len(gameboard)):
             for y in range((len(gameboard[i]))):
                 if (0 < x < len(gameboard) - 1) and (0 < y < len(gameboard[x]) - 1):
-                    middle_dict_list.append({"value": gameboard[x][y], "position": [x, y]})
                     self.values_list[x][y] = 3
 
-
-        sides_dict_list = []
         # for the sides
         for x in range(len(gameboard)):
             for y in range((len(gameboard[i]))):
                 if (x == 0 or x == len(gameboard) - 1) and (0 < y < len(gameboard[x]) - 1):
-                    sides_dict_list.append({"value": gameboard[x][y], "position": [x, y]})
                     self.values_list[x][y] = 2
                 if (y == 0 or y == len(gameboard[x]) - 1) and (0 < x < len(gameboard) - 1):
-                    sides_dict_list.append({"value": gameboard[x][y], "position": [x, y]})
                     self.values_list[x][y] = 2
         
 

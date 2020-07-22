@@ -109,17 +109,42 @@ class ChainReaction:
 
             pygame.display.update()
 
+    def isGameOver(self):
+        count = 0
+        red   = -1
+        green = -1
+        for row in range(len(self.grid)):
+            for col in range(len(self.grid[0])):
+                if(self.balls_list[row][col].getColor() == "red"):
+                    red += 1
+                if(self.balls_list[row][col].getColor() == "green"):
+                    green += 1
+                if(self.balls_list[row][col].isVisible()):
+                    count += 1
+        if count < 3:
+            return False
+        if(red == -1):
+            print("red game over")
+            return True
+        if(green == -1):
+            print("green game over")
+            return True
+
+        return False
+
     def updateGrid(self, x, y, color):
+        
         self.balls_list[x][y].updateColor(color)
         result      = self.balls_list[x][y].updateValue()
         neighbours  = self.balls_list[x][y].getNeighbours()
         self.grid[x][y] = self.balls_list[x][y].getValue()
-        # print(self.balls_list[x][y].getValue())
-        if result:
-            pass
-        else:
-            for i in range(len(neighbours)):
-                self.updateGrid(neighbours[i][0], neighbours[i][1], color)
+
+        if not self.isGameOver():
+            if result:
+                pass
+            else:
+                for i in range(len(neighbours)):
+                    self.updateGrid(neighbours[i][0], neighbours[i][1], color)
 
 
     def drawGrid(self, grid):

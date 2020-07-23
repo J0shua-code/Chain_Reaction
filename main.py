@@ -47,8 +47,6 @@ class Ball:
 # -------------------------- x --------------------------- x ---------------------------- x -------------------------
 
 
-
-
 class ChainReaction:
 
     def __init__(self, row, col):
@@ -146,6 +144,8 @@ class ChainReaction:
             else:
                 for i in range(len(neighbours)):
                     self.updateGrid(neighbours[i][0], neighbours[i][1], color)
+        else:
+            exit()
 
 
     def drawGrid(self, grid):
@@ -212,8 +212,9 @@ if __name__ == "__main__":
     row = int(input())
     col = int(input())
 
-    cr = ChainReaction(row, col)
-    cr.main()
+    while True:
+        cr = ChainReaction(row, col)
+        cr.main()   
     
 
     

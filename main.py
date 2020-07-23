@@ -109,10 +109,11 @@ class ChainReaction:
 
             pygame.display.update()
 
-    def isGameOver(self):
+    def isGameOver(self, color):
         count = 0
         red   = -1
         green = -1
+        
         for row in range(len(self.grid)):
             for col in range(len(self.grid[0])):
                 if(self.balls_list[row][col].getColor() == "red"):
@@ -123,10 +124,10 @@ class ChainReaction:
                     count += 1
         if count < 3:
             return False
-        if(red == -1):
+        if(red == -1 and color != "red"):
             print("red game over")
             return True
-        if(green == -1):
+        if(green == -1 and color != "green"):
             print("green game over")
             return True
 
@@ -139,7 +140,7 @@ class ChainReaction:
         neighbours  = self.balls_list[x][y].getNeighbours()
         self.grid[x][y] = self.balls_list[x][y].getValue()
 
-        if not self.isGameOver():
+        if not self.isGameOver(color):
             if result:
                 pass
             else:
@@ -165,12 +166,38 @@ class ChainReaction:
                 #red and green
                 if(self.balls_list[row][col].isVisible()):
                     if(self.balls_list[row][col].getColor() == "green"):
-                        text = font.render(str(grid[row][col]), False, (0, 255, 0))
-                        SCREEN.blit(text, (i + int(BLOCK_SIZE / 3), j + int(BLOCK_SIZE / 5)))
+
+                        # text = font.render(str(grid[row][col]), False, (0, 255, 0))
+                        # SCREEN.blit(text, (i + int(BLOCK_SIZE / 3), j + int(BLOCK_SIZE / 5)))
+
+                        if(self.balls_list[row][col].getValue() == 1):
+                            pygame.draw.circle(SCREEN, (0, 255, 0), (i + int(BLOCK_SIZE / 2), j + int(BLOCK_SIZE / 2)), 10)
+
+                        if(self.balls_list[row][col].getValue() == 2):
+                            pygame.draw.circle(SCREEN, (0, 255, 0),  (i + int(BLOCK_SIZE / 2) - int(BLOCK_SIZE / 8), j + int(BLOCK_SIZE / 2)), 10)
+                            pygame.draw.circle(SCREEN, (25, 215, 4), (i + int(BLOCK_SIZE / 2) + int(BLOCK_SIZE / 8), j + int(BLOCK_SIZE / 2)), 10)
+
+                        if(self.balls_list[row][col].getValue() == 3):
+                            pygame.draw.circle(SCREEN, (0, 255, 0),  (i + int(BLOCK_SIZE / 2), j + int(BLOCK_SIZE / 3)), 10)
+                            pygame.draw.circle(SCREEN, (25, 215, 4), (i + int(BLOCK_SIZE / 2) - int(BLOCK_SIZE / 8), j + int(BLOCK_SIZE / 2)), 10)
+                            pygame.draw.circle(SCREEN, (19, 164, 3), (i + int(BLOCK_SIZE / 2) + int(BLOCK_SIZE / 8), j + int(BLOCK_SIZE / 2)), 10)
+
                     if(self.balls_list[row][col].getColor() == "red"):
-                        text = font.render(str(grid[row][col]), False, (255, 0, 0))
-                        SCREEN.blit(text, (i + int(BLOCK_SIZE / 3), j + int(BLOCK_SIZE / 5)))
-                    
+
+                        # text = font.render(str(grid[row][col]), False, (255, 0, 0))
+                        # SCREEN.blit(text, (i + int(BLOCK_SIZE / 3), j + int(BLOCK_SIZE / 5)))
+
+                        if(self.balls_list[row][col].getValue() == 1):
+                            pygame.draw.circle(SCREEN, (255, 0, 0), (i + int(BLOCK_SIZE / 2), j + int(BLOCK_SIZE / 2)), 10)
+
+                        if(self.balls_list[row][col].getValue() == 2):
+                            pygame.draw.circle(SCREEN, (255, 0, 0), (i + int(BLOCK_SIZE / 2) - int(BLOCK_SIZE / 8), j + int(BLOCK_SIZE / 2)), 10)
+                            pygame.draw.circle(SCREEN, (210, 5, 5), (i + int(BLOCK_SIZE / 2) + int(BLOCK_SIZE / 8), j + int(BLOCK_SIZE / 2)), 10)
+
+                        if(self.balls_list[row][col].getValue() == 3):
+                            pygame.draw.circle(SCREEN, (255, 0, 0), (i + int(BLOCK_SIZE / 2), j + int(BLOCK_SIZE / 3)), 10)
+                            pygame.draw.circle(SCREEN, (210, 5, 5), (i + int(BLOCK_SIZE / 2) - int(BLOCK_SIZE / 8), j + int(BLOCK_SIZE / 2)), 10)
+                            pygame.draw.circle(SCREEN, (164, 5, 5), (i + int(BLOCK_SIZE / 2) + int(BLOCK_SIZE / 8), j + int(BLOCK_SIZE / 2)), 10)
                 i = i + BLOCK_SIZE
 
             j = j + BLOCK_SIZE

@@ -44,12 +44,15 @@ class Ball:
     def getColor(self):
         return self.color
 
-# -------------------------- x --------------------------- x ---------------------------- x -------------------------
+
+class GameOver(Exception):
+    pass
 
 
 class ChainReaction:
 
     def __init__(self, row, col):
+        pygame.init()
         self.ROW = row
         self.COL = col
         self.grid = [[0] * self.COL for i in range(self.ROW)]
@@ -80,7 +83,8 @@ class ChainReaction:
                 # To Quit the game
                 if event.type == pygame.QUIT:
                     pygame.quit()
-                    sys.exit(0)
+                    exit()
+                    # sys.exit(0)
                 
                 # Mousebutton click
                 if event.type == pygame.MOUSEBUTTONDOWN:
@@ -100,11 +104,8 @@ class ChainReaction:
                             TURN_COUNTER = 0
                         else:
                             TURN_COUNTER = 1
-                        self.updateGrid(x, y, color)
-                    
-                    
-                    
 
+                        self.updateGrid(x, y, color)              
             pygame.display.update()
 
     def isGameOver(self, color):
@@ -124,12 +125,14 @@ class ChainReaction:
             return False
         if(red == -1 and color != "red"):
             print("red game over")
-            return True
+            self.display_gameover_screen("green")
+            raise GameOver
+            # return True
         if(green == -1 and color != "green"):
             print("green game over")
-            return True
-
-        return False
+            self.display_gameover_screen("red")
+            raise GameOver
+            # return True
 
     def updateGrid(self, x, y, color):
         
@@ -144,8 +147,18 @@ class ChainReaction:
             else:
                 for i in range(len(neighbours)):
                     self.updateGrid(neighbours[i][0], neighbours[i][1], color)
-        else:
-            exit()
+
+    def display_gameover_screen(self, winner):
+        global SCREEN
+        WINDOW_HEIGHT = BLOCK_SIZE * self.ROW + 40
+        WINDOW_WIDTH = BLOCK_SIZE * self.COL
+        font = pygame.font.SysFont('Comic Sans MS', 35)
+        text = font.render( winner.capitalize() + "  Won !!", False, (0, 255, 0))
+        
+        SCREEN = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT))
+        SCREEN.fill((255,255,255))
+        SCREEN.blit(text, (10, (int(WINDOW_HEIGHT // 2) - 40)))
+        pygame.display.update()
 
 
     def drawGrid(self, grid):
@@ -206,16 +219,23 @@ class ChainReaction:
 
 if __name__ == "__main__":
 
-    pygame.init()
-
     print("Enter grid size row x col")
     row = int(input())
     col = int(input())
 
     while True:
         cr = ChainReaction(row, col)
-        cr.main()   
-    
+        try:
+            cr.main()
+        except:
+            del cr
+        print("Play again ? y/n")   
+        choice = input()
+        if choice.lower() == "y":
+            pass
+        else:
+            exit()
+
 
     
 
